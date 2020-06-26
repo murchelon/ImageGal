@@ -1,0 +1,64 @@
+
+-- drop table tb_IG_Images;
+CREATE TABLE IF NOT EXISTS tb_IG_Images (
+    IDImage INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    DataCad DATETIME NOT NULL DEFAULT NOW(),
+	Titulo VARCHAR(300) NOT NULL,
+    Descricao MEDIUMTEXT NULL,
+    IDUserUpload INT NOT NULL,
+    Formato VARCHAR(10) NOT NULL,
+    Arquivo_Original VARCHAR(500) NOT NULL,
+    Width_Original INT NOT NULL,
+    Height_Original INT NOT NULL,
+    Arquivo_Thumb VARCHAR(500) NOT NULL,
+    Width_Thumb INT NOT NULL,
+    Height_Thumb INT NOT NULL
+    );
+    
+-- drop table tb_IG_Users;
+CREATE TABLE IF NOT EXISTS tb_IG_Users (
+    IDUser INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    DataCad DATETIME NOT NULL DEFAULT NOW(),
+	Nome VARCHAR(300) NOT NULL,
+    Nivel INT NOT NULL DEFAULT 500,
+    Ativo INT NOT NULL DEFAULT 1,
+    Usuario VARCHAR(50) NOT NULL,
+    Senha VARCHAR(50) NOT NULL
+    );    
+
+
+-- INSERT INTO tb_IG_Users (Nome, Usuario, Senha) VALUES ('Marcelo Rocha', 'murch', '123456');
+
+
+
+-- INSERT INTO tb_IG_Images (Titulo, Descricao, IDUserUpload, Width_Original, Height_Original, Formato, Arquivo_Original, Arquivo_Thumb, Width_Thumb, Height_Thumb) VALUES
+-- ('Mãos Dadas', 'Foto de 2 mãos', 1, 874, 514, 'JPG', 'foto1.jpg', 'Thumb_foto1.jpg', 262, 154);
+
+-- INSERT INTO tb_IG_Images (Titulo, Descricao, IDUserUpload, Width_Original, Height_Original, Formato, Arquivo_Original, Arquivo_Thumb, Width_Thumb, Height_Thumb) VALUES
+-- ('Professor', 'Foto de uma pessoa escrevendo em uma lousa', 1, 874, 514, 'JPG', 'foto2.jpg', 'Thumb_foto2.jpg', 262, 154);
+
+-- INSERT INTO tb_IG_Images (Titulo, Descricao, IDUserUpload, Width_Original, Height_Original, Formato, Arquivo_Original, Arquivo_Thumb, Width_Thumb, Height_Thumb) VALUES
+-- ('Pessoas Felizes', 'Foto de um grupo de pessoas', 1, 874, 514, 'JPG', 'foto3.jpg', 'Thumb_foto3.jpg', 262, 154);
+
+-- INSERT INTO tb_IG_Images (Titulo, Descricao, IDUserUpload, Width_Original, Height_Original, Formato, Arquivo_Original, Arquivo_Thumb, Width_Thumb, Height_Thumb) VALUES
+-- ('Grafico', 'Foto de um grafico desenhado em uma lousa', 1, 960, 541, 'JPG', 'foto4.jpg', 'Thumb_foto4.jpg', 288, 162);
+
+-- INSERT INTO tb_IG_Images (Titulo, Descricao, IDUserUpload, Width_Original, Height_Original, Formato, Arquivo_Original, Arquivo_Thumb, Width_Thumb, Height_Thumb) VALUES
+-- ('Navio no Porto', 'Foto de um navio ancorado em um porto com guindastes', 1, 1023, 575, 'JPG', 'foto5.jpg', 'Thumb_foto5.jpg', 307, 173);
+
+SELECT
+    I.IDImage,
+    I.Titulo,
+    I.Descricao,
+    I.IDUserUpload,
+    I.Arquivo_Thumb,
+    I.Width_Thumb,
+    I.Height_Thumb,
+    U.Nome
+FROM
+    tb_IG_Images I
+    LEFT JOIN tb_IG_Users U ON I.IDUserUpload = U.IDUser
+ORDER BY 
+    I.DataCad,
+    I.Titulo,
+    U.Nome;
