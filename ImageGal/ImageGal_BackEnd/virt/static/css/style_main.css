@@ -1,0 +1,11 @@
+.ig_titulo {
+    font-weight: bold;
+    color: midnightblue;
+    text-align: center;
+  }
+  
+  .ig_descricao {
+    color: darkslategray;
+    font-size: x-small;
+    text-align: center;
+  }

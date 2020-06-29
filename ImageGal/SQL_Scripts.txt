@@ -46,6 +46,13 @@ CREATE TABLE IF NOT EXISTS tb_IG_Users (
 -- INSERT INTO tb_IG_Images (Titulo, Descricao, IDUserUpload, Width_Original, Height_Original, Formato, Arquivo_Original, Arquivo_Thumb, Width_Thumb, Height_Thumb) VALUES
 -- ('Navio no Porto', 'Foto de um navio ancorado em um porto com guindastes', 1, 1023, 575, 'JPG', 'foto5.jpg', 'Thumb_foto5.jpg', 307, 173);
 
+-- INSERT INTO tb_IG_Images (Titulo, Descricao, IDUserUpload, Width_Original, Height_Original, Formato, Arquivo_Original, Arquivo_Thumb, Width_Thumb, Height_Thumb) VALUES
+-- ('Paisagem Vertical', 'Foto de um belo por do sol, em baixa velocidade, com ondas e um farol mais ao fundo', 1, 675, 1200, 'JPG', 'foto6.jpg', 'Thumb_foto6.jpg', 169, 300);
+
+-- INSERT INTO tb_IG_Images (Titulo, Descricao, IDUserUpload, Width_Original, Height_Original, Formato, Arquivo_Original, Arquivo_Thumb, Width_Thumb, Height_Thumb) VALUES
+-- ('Arranha-Céus: Burj Khalifa', 'Foto do edifício mais alto do mundo. O Burj Khalifa fica em Abu-Dhabi', 1, 646, 859, 'JPG', 'foto7.jpg', 'Thumb_foto7.jpg', 213, 283);
+
+
 SELECT
     I.IDImage,
     I.Titulo,
@@ -54,6 +61,9 @@ SELECT
     I.Arquivo_Thumb,
     I.Width_Thumb,
     I.Height_Thumb,
+    I.Arquivo_Original,
+    I.Width_Original,
+    I.Height_Original,    
     U.Nome
 FROM
     tb_IG_Images I
@@ -62,3 +72,8 @@ ORDER BY
     I.DataCad,
     I.Titulo,
     U.Nome;
+
+CREATE USER 'ig_user'@'%' IDENTIFIED BY 'nq!@ub%ncv1Scbcq22DX0a';
+
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, PROCESS, REFERENCES, INDEX, ALTER, SHOW DATABASES, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, REPLICATION SLAVE, REPLICATION CLIENT, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, CREATE USER, EVENT, TRIGGER, LOAD FROM S3, SELECT INTO S3, INVOKE LAMBDA ON *.* TO 'ig_user'@'%' WITH GRANT OPTION;
+
