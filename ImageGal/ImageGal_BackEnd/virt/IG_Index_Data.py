@@ -1,7 +1,7 @@
 import pymysql as pymysql
 from IG_bib import Abre_Conexao, Fecha_Conexao
 
-def render_Index() -> object:
+def fetch_Index_data() -> object:
 
     sql = ""
     sql = sql + " SELECT"

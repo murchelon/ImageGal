@@ -2,10 +2,32 @@
     font-weight: bold;
     color: midnightblue;
     text-align: center;
-  }
-  
-  .ig_descricao {
+}
+
+.ig_descricao {
     color: darkslategray;
     font-size: x-small;
     text-align: center;
-  }
+}  
+
+.ig_table_form_addimg {
+    font-size: smaller;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;    
+    width: 100%;
+}
+
+.ig_td_form_addimg_label {
+    background-color: lightsteelblue;
+    height: 30px;
+    width: 1%;
+    font-weight: bold;
+}
+
+.ig_td_form_addimg_dado {
+    background-color:lightgray;
+}
+
+
+

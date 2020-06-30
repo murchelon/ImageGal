@@ -73,6 +73,8 @@ https://startbootstrap.com/previews/freelancer/
         :: Save Requirements: pip3 freeze > requirements.txt
         :: Command: SET FLASK_APP=app.py (in the .py folder)
         :: Command: python -m flask run (to start a web server)
+        :: Install Axios: npm install --save axios
+        
 
 
 1 - Create an Aurora Database in AWS
