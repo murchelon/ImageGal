@@ -3,12 +3,13 @@ from flask import Flask, render_template, request, redirect, url_for
 from IG_DB_Functions import fetch_Index_data, insert_image
 from IG_bib import clean, getExtFromFileName
 from werkzeug.utils import secure_filename
-
+from PIL import Image
 
 app = Flask(__name__)
 
 
 UPLOAD_FOLDER = "\\static\\assets\\Upload_Images\\Original"
+THUMB_FOLDER = "\\static\\assets\\Upload_Images\\Thumb"
 ALLOWED_EXTENSIONS = {"png", "jpg", "peg", "gif"}
 
 def allowed_file(filename) -> bool:
@@ -29,14 +30,33 @@ def upload_file() -> None:
 
                 file = request.files[filex]
             
-                dirname = os.path.dirname(__file__) + UPLOAD_FOLDER
-                # return dirname
+                dirname_upload = os.path.dirname(__file__) + UPLOAD_FOLDER
+                dirname_thumb = os.path.dirname(__file__) + THUMB_FOLDER
+
+                # return dirname_upload
 
                 fileNameIsOk = allowed_file(file.filename)
                 finalFileName = secure_filename(file.filename)
 
                 if file and fileNameIsOk:
-                    file.save(os.path.join(dirname, finalFileName))
+                    file.save(os.path.join(dirname_upload, finalFileName))
+
+                    # open the uploaded image
+                    image = Image.open(os.path.join(dirname_upload, finalFileName))
+
+                    # get file size (w, h)
+                    Width_Original, Height_Original = image.size
+
+                    # create thumbnail
+                    Arquivo_Thumb = "thumb_" + finalFileName
+                    image.thumbnail((200, 200))
+                    image.save(os.path.join(dirname_thumb, Arquivo_Thumb))
+
+                    # open the thumb image
+                    image_thumb = Image.open(os.path.join(dirname_thumb, Arquivo_Thumb))
+
+                    # get w and h from thumbnail
+                    Width_Thumb, Height_Thumb = image_thumb.size
 
                     # get form data and prepare all data to insert                 
                     outTitulo = clean(request.form.get("txtTitulo", ""))
@@ -45,16 +65,16 @@ def upload_file() -> None:
                     outFormato = getExtFromFileName(finalFileName)
 
                     # Insert data in DB
-                    # insert_image(outTitulo, 
-                    #              outDesc, 
-                    #              1,
-                    #              outFormato,
-                    #              Arquivo_Thumb,
-                    #              Width_Thumb,
-                    #              Height_Thumb,
-                    #              Arquivo_Original,
-                    #              Width_Original,
-                    #              Height_Original)
+                    retFunc = insert_image(outTitulo, 
+                                           outDesc, 
+                                           "1",
+                                           outFormato,
+                                           Arquivo_Thumb,
+                                           str(Width_Thumb),
+                                           str(Height_Thumb),
+                                           finalFileName,
+                                           str(Width_Original),
+                                           str(Height_Original))
 
          
                 
