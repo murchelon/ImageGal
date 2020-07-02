@@ -1,4 +1,14 @@
 
+
+{% if statusConn == None %}
+    {% set offlineMode = false %}
+{% else %}
+    {% set offlineMode = true %}
+{% endif %}
+
+
+
+
     
 <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +38,7 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand js-scroll-trigger" href="#page-top">Image Gallery</a>
+                <a class="navbar-brand js-scroll-trigger" href="#page-top">Image Gallery<span style="color: lightcoral;" id="span_offline"></span></a>
                 <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars"></i>
@@ -47,6 +57,16 @@
             <div class="container d-flex align-items-center flex-column">
                 <!-- Masthead Heading-->
                 <h1 class="masthead-heading  mb-0">Demonstração: Image Gallery</h1>
+                
+                {% if offlineMode == true %}
+                    <BR>
+                    O banco de dados desta aplicação esta armazenado na AWS e eu não mantenho ele ativo o tempo todo.<BR>
+                    No momento, ele está desativado e esta página está usando valores "engessados".<BR>
+                    A aplicação funciona normalmente (upload, visualização, etc), mas, não salva o cadastro da imagem em um banco.<BR>
+                    Caso deseje visualizar a aplicação com banco, por favor, me informe e eu ativo o banco na hora.
+                {% endif %}
+                    
+
                 <!-- Icon Divider-->
                 <div class="divider-custom divider-light">
                     <div class="divider-custom-line"></div>
@@ -429,27 +449,83 @@
 
 
 
-var igImages = [
 
-{% for image in rs_dados_iniciais %}
 
+{% if offlineMode == true %}
+
+    span_offline.innerHTML = ' - BANCO OFFLINE'
+
+
+    var igImages = [
     { 
-        IDImagem: "{{ image.IDImage }}", 
-        Titulo: "{{ image.Titulo }}", 
-        Descricao: "{{ image.Descricao }}",
-        IDUserUpload: "{{ image.IDUserUpload }}",
-        Arquivo_Thumb: "{{ image.Arquivo_Thumb }}",
-        Width_Thumb: "{{ image.Width_Thumb }}",
-        Height_Thumb: "{{ image.Height_Thumb }}",
-        Arquivo_Original: "{{ image.Arquivo_Original }}",
-        Width_Original: "{{ image.Width_Original }}",
-        Height_Original: "{{ image.Height_Original }}",
-        UserUploadNome: "{{ image.Nome }}",
-    },
+            IDImagem: "1", 
+            Titulo: "Mãos Dadas", 
+            Descricao: "Foto de 2 mãos",
+            IDUserUpload: "1",
+            Arquivo_Thumb: "thumb_foto1.jpg",
+            Width_Thumb: "262",
+            Height_Thumb: "154",
+            Arquivo_Original: "foto1.jpg",
+            Width_Original: "874",
+            Height_Original: "514",
+            UserUploadNome: "Marcelo",
+        },  
 
-{% endfor %}
+        { 
+            IDImagem: "2", 
+            Titulo: "Professor", 
+            Descricao: "Foto de uma pessoa escrevendo em uma lousa",
+            IDUserUpload: "1",
+            Arquivo_Thumb: "thumb_foto2.jpg",
+            Width_Thumb: "262",
+            Height_Thumb: "154",
+            Arquivo_Original: "foto2.jpg",
+            Width_Original: "874",
+            Height_Original: "514",
+            UserUploadNome: "Marcelo",
+        },
 
-];
+        { 
+            IDImagem: "3", 
+            Titulo: "Pessoas Felizes", 
+            Descricao: "Foto de um grupo de pessoas",
+            IDUserUpload: "1",
+            Arquivo_Thumb: "thumb_foto3.jpg",
+            Width_Thumb: "262",
+            Height_Thumb: "154",
+            Arquivo_Original: "foto3.jpg",
+            Width_Original: "874",
+            Height_Original: "514",
+            UserUploadNome: "Marcelo",
+        }                        
+    ];
+
+{% else %}
+
+    var igImages = [
+
+    {% for image in rs_dados_iniciais %}
+
+        { 
+            IDImagem: "{{ image.IDImage }}", 
+            Titulo: "{{ image.Titulo }}", 
+            Descricao: "{{ image.Descricao }}",
+            IDUserUpload: "{{ image.IDUserUpload }}",
+            Arquivo_Thumb: "{{ image.Arquivo_Thumb }}",
+            Width_Thumb: "{{ image.Width_Thumb }}",
+            Height_Thumb: "{{ image.Height_Thumb }}",
+            Arquivo_Original: "{{ image.Arquivo_Original }}",
+            Width_Original: "{{ image.Width_Original }}",
+            Height_Original: "{{ image.Height_Original }}",
+            UserUploadNome: "{{ image.Nome }}",
+        },
+
+    {% endfor %}
+
+    ];
+
+{% endif %}
+
 
 
 
@@ -509,14 +585,7 @@ var igListApp = new Vue({
                 }
                    
                 img.src = event.target.result;
-                // let rrr = getImgSizeFit(img.src, 200, 200)
-                // console.log(rrr)
-
             }
-            // reader.onload = event => {
-            //     this.selImageRender = event.target.result
-            // } 
-
         },
 
         onUpload: function() 
@@ -533,12 +602,20 @@ var igListApp = new Vue({
                 // doSubmit();
 
                 const formData = new FormData()
+                
                 formData.append(this.selFileUpload.name, this.selFileUpload, this.selFileUpload.name)
+                formData.append('txtTitulo', frmFile.txtTitulo.value)
+                formData.append('txtDesc', frmFile.txtDesc.value)
+
+
+                //alert(frmFile.txtTitulo.value)
+
                 axios.post('/upload', formData)
                     .then(function (response) {
                         
                         if (response.status == '200')
                         {
+                            //igListApp.addImage()
                             alert('Arquivo enviado com sucesso !')
                             $('#uploadModal').modal('hide');
                         }

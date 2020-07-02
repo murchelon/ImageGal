@@ -1,33 +1,34 @@
 import os
-import json
 from flask import Flask, render_template, request, redirect, url_for
-from IG_Index_Data import fetch_Index_data
+from IG_DB_Functions import fetch_Index_data, insert_image
+from IG_bib import clean, getExtFromFileName
 from werkzeug.utils import secure_filename
+
 
 app = Flask(__name__)
 
-# UPLOAD_FOLDER = '/static/assets/Upload_Images/Original/'
+
 UPLOAD_FOLDER = "\\static\\assets\\Upload_Images\\Original"
 ALLOWED_EXTENSIONS = {"png", "jpg", "peg", "gif"}
 
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+def allowed_file(filename) -> bool:
+    return "." in filename and \
+           filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
-def upload_file():
+def upload_file() -> None:
 
     contaArq = 0
     finalFileName = ""
     fileNameIsOk = False
 
-    if request.method == 'POST':
+    if request.method == "POST":
 
         for filex in request.files:
 
             if contaArq == 0:
 
                 file = request.files[filex]
-
+            
                 dirname = os.path.dirname(__file__) + UPLOAD_FOLDER
                 # return dirname
 
@@ -36,6 +37,27 @@ def upload_file():
 
                 if file and fileNameIsOk:
                     file.save(os.path.join(dirname, finalFileName))
+
+                    # get form data and prepare all data to insert                 
+                    outTitulo = clean(request.form.get("txtTitulo", ""))
+                    outDesc = clean(request.form.get("txtDesc", ""))
+
+                    outFormato = getExtFromFileName(finalFileName)
+
+                    # Insert data in DB
+                    # insert_image(outTitulo, 
+                    #              outDesc, 
+                    #              1,
+                    #              outFormato,
+                    #              Arquivo_Thumb,
+                    #              Width_Thumb,
+                    #              Height_Thumb,
+                    #              Arquivo_Original,
+                    #              Width_Original,
+                    #              Height_Original)
+
+         
+                
 
             contaArq = contaArq + 1
 
@@ -49,33 +71,40 @@ def upload_file():
                                                 
         else:
             return "Nenhum arquivo enviado", 400
-            # return render_template('Index.html', rs_dados_iniciais=fetch_Index_data())
 
 
 
 
-@app.route('/')
+
+@app.route("/")
 def index():
-    return render_template('Index.html', rs_dados_iniciais=fetch_Index_data())
+    
+    retStatus, rs_dados_iniciais = fetch_Index_data()
 
-@app.route('/upload', methods = ['POST', 'GET'])
+    if retStatus == "1":
+        return render_template("Index.html", statusConn=None, rs_dados_iniciais=rs_dados_iniciais)
+    else:
+        return render_template("Index.html", statusConn=retStatus, rs_dados_iniciais=None)
+    
+
+@app.route("/upload", methods = ["POST", "GET"])
 def upload():
     
-    if request.method == 'POST':
+    if request.method == "POST":
         return upload_file()
-        # return render_template('Upload_POST.html')
+        # return render_template("Upload_POST.html")
         
     else:
-        return render_template('Upload.html')
+        return render_template("Upload.html")
     
 
-@app.route('/about')
+@app.route("/about")
 def about():
-    return render_template('About.html')
+    return render_template("About.html")
     
-@app.route('/admin')
+@app.route("/admin")
 def admin():
-    return render_template('Admin.html')
+    return render_template("Admin.html")
     
 if (__name__ == "__main__"):
 
