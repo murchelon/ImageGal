@@ -16,6 +16,7 @@
 - Vue.js to create a reactive front-end
 - Responsive front-end, using a free Bootstrap theme
 - Javascript and CSS to resize the image and get it's size. width and height, on the client side before upload
+- Image preview before upload
 
 
 ## STACK USED:
@@ -25,6 +26,7 @@
 - Git
 - Python
 - Flask
+- Jinja
 - Vue.js
 - AWS Aurora
 - AWS BeanStalk
