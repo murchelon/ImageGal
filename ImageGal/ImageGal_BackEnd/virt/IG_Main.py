@@ -39,6 +39,8 @@ def upload_file() -> None:
                 finalFileName = secure_filename(file.filename)
 
                 if file and fileNameIsOk:
+
+                    # save uploaded file
                     file.save(os.path.join(dirname_upload, finalFileName))
 
                     # open the uploaded image
