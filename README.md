@@ -5,10 +5,29 @@
  You also can search for a particular image.
 
 
-## LIVE TEST:
+## LIVE TEST
 
 
-## FEATURES:
+## POINTS OF INTEREST
+
+- File with the scripts used to create the tables in database:<BR>
+[SQL_Scripts.txt](https://github.com/murchelon/ImageGal/blob/master/ImageGal/SQL_Scripts.txt)
+
+- This file is the main one, on the front-end side. Here is where all Vue.js is, in the bottom:
+[Index.html](https://github.com/murchelon/ImageGal/blob/master/ImageGal/virt/templates/Index.html)
+
+
+- Folder called /virt (due to the python virtual env) with 3 python scripts, that are the back-end. The main one is [IG_Main.py](https://github.com/murchelon/ImageGal/blob/master/ImageGal/virt/IG_Main.py). There's where it all starts.<BR>
+[/virt](https://github.com/murchelon/ImageGal/tree/master/ImageGal/virt)
+
+- Here is where the uploaded images go:<BR>
+[/Upload_Images](https://github.com/murchelon/ImageGal/tree/master/ImageGal/virt/static/assets/Upload_Images)
+
+- Here is where we can find the HTML envolved. Here is where I used the bootstrap theme:
+[/templates](https://github.com/murchelon/ImageGal/tree/master/ImageGal/virt/templates)
+
+
+## FEATURES
 
 - Upload image
 - Thumbnail generation
@@ -19,7 +38,7 @@
 - Image preview before upload
 
 
-## STACK USED:
+## STACK USED
 
 - Bootstrap
 - Markdown (Readme.md)
@@ -36,22 +55,22 @@
 - SQL
 
 
-## LIBRARYS/TEMPLATES USED:
+## LIBRARYS/TEMPLATES USED
 
 Bootstrap theme for the Image Gallery:
 https://startbootstrap.com/previews/freelancer/
 
 
-## INSTALLATION IN A DESKTOP:
+## INSTALLATION IN A DESKTOP
 
 
-## INSTALLATION IN AWS WITH BEANSTOCK:
+## INSTALLATION IN AWS WITH BEANSTOCK
 
 
-## INSTALLATION IN AWS USING A DOCKER CONTAINER:
+## INSTALLATION IN AWS USING A DOCKER CONTAINER
 
 
-## Step-by=step of all the actions I did, while creating this project:
+## Step-by=step of all the actions I did, while creating this project
 
 
 1 - Install in the dev machine:
